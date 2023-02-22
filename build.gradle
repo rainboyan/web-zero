@@ -1,0 +1,61 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.grails.org/grails/core" }
+        maven { url 'https://repo.gradle.org/gradle/libs-releases' }
+    }
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+    }
+}
+
+apply plugin: "idea"
+apply plugin: "groovy"
+apply plugin: "maven-publish"
+apply plugin: "org.grails.grails-profile"
+
+group 'org.rainboyan.profiles'
+version project.projectVersion
+
+repositories {
+    mavenLocal()
+    maven { url "https://repo.grails.org/grails/core" }
+    maven { url 'https://repo.gradle.org/gradle/libs-releases' }
+}
+
+dependencies {
+    profile "org.grails.profiles:base:$baseVersion"
+    implementation "org.codehaus.groovy:groovy:$groovyVersion"
+    compileOnly "org.grails:grails-shell:$grailsVersion"
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = project.group
+            artifactId = project.name
+            version = project.version
+
+            from components.java
+
+            pom {
+                name = "Grails Web Zero Profile"
+                description = "A Grails Profile for Web with Many App Templates"
+                url = 'https://github.com/rainboyan/web-zero'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'rainboyan'
+                        name = 'Michael Yan'
+                        email = 'rain@rainboyan.com'
+                    }
+                }
+            }
+        }
+    }
+}
